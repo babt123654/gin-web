@@ -1,0 +1,102 @@
+# development
+system:
+  # multi machine deployment will use
+  machine-id: 1
+  # http url prefix
+  url-prefix: api
+  # api version after url-prefix
+  api-version: v1
+  # http listen port
+  port: 10000
+  # performance debugging port
+  pprof-port: 10005
+  # connect timeout seconds(connect mysql/redis...)
+  connect-timeout: 10
+  # idempotence middleware token header name
+  idempotence-token-name: api-idempotence-token
+  # casbin model file path
+  casbin-model-path: 'rbac_model.conf'
+  # max request per second
+  rate-limit-max: 200
+  # amap key for request real ip(https://lbs.amap.com/)
+  amap-key: ''
+
+# tracer
+tracer:
+  enable: 'true'
+  insecure: 'true'
+  endpoint: '127.0.0.1:4318'
+  headers:
+
+logs:
+  # logger category(zap/logrus, default logrus)
+  category: logrus
+  # logger level(4:Info 5:Debug, 0<=level<=6, refer to go-helper log.level)
+  level: 4
+  # normal text or json str
+  json: false
+  line-num:
+    # disable line num
+    disable: false
+    # line num level(package path level)
+    level: 1
+    # keep logger source dir
+    source: false
+    # keep logger version
+    version: true
+  # operation log context key
+  operation-key: operation_log_response
+  # allow users to delete operation logs
+  operation-allowed-to-delete: false
+
+mysql:
+  # mysql uri
+  uri: 'root:root@tcp(127.0.0.1:3306)/gin_web?charset=utf8mb4&collation=utf8mb4_general_ci&parseTime=True&loc=Local&timeout=10000ms'
+  # db table prefix
+  table-prefix: tb
+  # not print sql
+  no-sql: false
+  # Whether to initialize data (use it when there is no initial data, and use it cautiously when the production version has been released)
+  init-data: true
+  # enable transaction middleware
+  transaction: true
+
+redis:
+  # redis uri like this:
+  # redis://[:password@]host[:port][/dbnumber]
+  # redis-socket://[:password@]path[?db=dbnumber]
+  # redis-sentinel://[:password@]host1[:port][,host2:[:port]][,hostN:[:port]][?master=masterName]
+  uri: 'redis://127.0.0.1:6379/0'
+  # binlog cache key
+  binlog-pos: mysql_binlog_pos
+  # enable redis
+  enable: true
+  # enable binlog redis service(pkg.cache_service)
+  enable-binlog: true
+
+jwt:
+  realm: test jwt
+  key: secret key
+  # token expires(hours)
+  timeout: 24
+  # refresh token expires(hours)
+  max-refresh: 168
+  # rsa file path
+  rsa-public-key: gin-web-rsa.pub
+  rsa-private-key: gin-web-rsa
+
+upload:
+  # minio
+  oss-minio:
+    enable: false
+    bucket: gin-web
+    endpoint: 127.0.0.1:9005
+    access-id: minio
+    secret: minio123
+    use-https: false
+  # file save dir
+  save-dir: upload
+  # MB
+  single-max-size: 32
+  # concurrent number of merged files
+  merge-concurrent-count: 10

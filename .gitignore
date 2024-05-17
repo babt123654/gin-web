@@ -1,0 +1,5 @@
+.idea
+temp/
+logs
+
+*-packr.go
