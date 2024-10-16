@@ -51,7 +51,7 @@ logs:
 
 mysql:
   # mysql uri
-  uri: 'root:root@tcp(127.0.0.1:3306)/gin_web?charset=utf8mb4&collation=utf8mb4_general_ci&parseTime=True&loc=Local&timeout=10000ms'
+  uri: 'root:root@tcp(127.0.0.1:3306)/l0?charset=utf8mb4&collation=utf8mb4_general_ci&parseTime=True&loc=Local&timeout=10000ms'
   # db table prefix
   table-prefix: tb
   # not print sql
@@ -70,9 +70,9 @@ redis:
   # binlog cache key
   binlog-pos: mysql_binlog_pos
   # enable redis
-  enable: true
+  enable: false
   # enable binlog redis service(pkg.cache_service)
-  enable-binlog: true
+  enable-binlog: false
 
 jwt:
   realm: test jwt

@@ -129,6 +129,15 @@ func binlogListen() (err error) {
 			new(models.SysUser),
 			new(models.SysRole),
 			new(models.Leave),
+
+			new(models.L0),
+			new(models.Message),
+			new(models.Principal),
+			new(models.Asset),
+			new(models.PostConditions),
+			new(models.FunctionArgs),
+			new(models.ContractCall),
+			new(models.Results),
 		),
 	)
 	return

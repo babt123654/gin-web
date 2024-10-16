@@ -2,6 +2,7 @@ package tests
 
 import (
 	"fmt"
+	"gin-web/models"
 	"gin-web/pkg/global"
 	m "github.com/go-sql-driver/mysql"
 	"github.com/piupuer/go-helper/pkg/log"
@@ -40,10 +41,22 @@ func Mysql() {
 		panic(fmt.Sprintf("[unit test]initialize mysql failed: %v", err))
 	}
 	global.Mysql = db
-	autoMigrate()
+	//autoMigrate(db)
 	log.WithContext(ctx).Debug("[unit test]initialize mysql success")
 }
 
-func autoMigrate() {
-
+func autoMigrate(db *gorm.DB) {
+	err := db.AutoMigrate(
+		&models.L0{},
+		&models.Message{},
+		//&models.Principal{},
+		//&models.Asset{},
+		//&models.PostConditions{},
+		//&models.FunctionArgs{},
+		//&models.ContractCall{},
+		//&models.Results{},
+	)
+	if err != nil {
+		panic(fmt.Sprintf("[unit test]auto migrate failed: %v", err))
+	}
 }

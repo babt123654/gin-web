@@ -2,8 +2,10 @@ package main
 
 import (
 	"embed"
+	"fmt"
 	"gin-web/initialize"
 	"gin-web/pkg/global"
+	"gin-web/pkg/service"
 	"gin-web/router"
 	"github.com/piupuer/go-helper/pkg/listen"
 	"github.com/piupuer/go-helper/pkg/log"
@@ -13,6 +15,7 @@ import (
 	"runtime"
 	"runtime/debug"
 	"strings"
+	"time"
 )
 
 var ctx = tracing.NewId(nil)
@@ -42,13 +45,16 @@ func main() {
 	// initialize components
 	initialize.Config(ctx, conf)
 	initialize.Tracer()
-	initialize.Redis()
+	//initialize.Redis()
 	initialize.Mysql()
 	initialize.CasbinEnforcer()
-	initialize.Cron()
-	initialize.Oss()
 
+	//initialize.Cron()
+	//initialize.Oss()
+	//CreateL0(new(gin.Context))
 	// listen http
+	OminMoniter()
+	fmt.Println("-------------------------------------------------------------------------------------------6")
 	listen.Http(
 		listen.WithHttpCtx(ctx),
 		listen.WithHttpProName(global.ProName),
@@ -59,4 +65,35 @@ func main() {
 			global.Tracer.Shutdown(ctx)
 		}),
 	)
+
+	//go func() {
+
+	//}()
+}
+func OminMoniter() {
+	q := service.New(ctx)
+	//q.GetL0Sibel2Git()
+	ticker := time.NewTicker(5 * time.Minute)
+	quit := make(chan struct{})
+
+	go func() {
+		for {
+			select {
+			case <-ticker.C:
+				// 每隔5分钟调用一次q.GetOminiUsdtOp1(nil)函数
+				q.GetOminiUsdtOp1(nil)
+			case <-quit:
+				ticker.Stop()
+				return
+			}
+		}
+	}()
+
+	// 假设你的程序需要运行一段时间后才退出
+	// 在这里可以添加退出条件，例如等待某个事件发生或接收到某个信号
+	// 例如，使用time.Sleep(time.Hour)来模拟程序的运行时间
+	time.Sleep(time.Hour * 9999)
+
+	// 关闭定时器，并退出循环
+	close(quit)
 }
